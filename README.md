@@ -3,7 +3,8 @@
 ## How to run the code
 1. Clone the repository or Download all the files
 2. Install the required dependecies
-3. To start the flask app, move to project directory and run:
+3. Import Mysql schema and change mysql credentials accordingly
+4. To start the flask app, move to project directory and run:
 ```
 python app.py
 ```
