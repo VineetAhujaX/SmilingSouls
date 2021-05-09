@@ -238,7 +238,7 @@ def mysession():
             name=res[7]
             meet_link=res[5]
             
-            enable = True
+            enable = False
             # from datetime import date
             # import datetime
             # todays = datetime.datetime.now()
@@ -247,17 +247,25 @@ def mysession():
             #A_date = datetime.strptime(str(A_date),"%Y-%m-%d")
             # C_time = todays.time()
             # C_date = todays.date()
-            # print(type(C_time))
-            # print(type(C_date))
-            # print(type(todays.min+A_date+A_time))
-            # print(type(A_date))
+            
             # #
+            from datetime import date
+            from datetime import datetime
+            C_date = date.today()
+            my_time = datetime.min.time()
+            A_datetime = datetime.combine(A_date, my_time)
+            A_datetime+=A_time
+            C_datetime=datetime.now()
+            print(type(C_datetime))
+            # print(type(C_date))
+            print(type(A_datetime))
+            print(type(A_date))
             
             #C_date = todays.strptime(date,"%Y-%m-%d")
-            #if(A_date==C_date and C_time-(A_time+A_date)>datetime.timedelta(seconds=1) and C_time-(A_time+A_date) <=datetime.timedelta(hours=1)):
-             #   enable=True     
+            if(A_date==C_date and C_datetime-A_datetime>timedelta(seconds=1) and C_datetime-A_datetime <=timedelta(hours=1)):
+                enable=True     
 
-            return render_template("mysessions.html",time=A_time,date=A_date,name=name,meet_link=meet_link,enable=enable)
+            return render_template("mysessions.html",C_datetime=C_datetime,A_datetime=A_datetime,time=A_time,date=A_date,name=name,meet_link=meet_link,enable=enable)
         return render_template("nosession.html")
     else:
         return redirect(url_for("home"))
