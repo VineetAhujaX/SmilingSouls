@@ -1,4 +1,4 @@
-# SimilingSoul
+# SmilingSoul
 
 ## How to run the code
 1. Clone the repository or Download all the files
