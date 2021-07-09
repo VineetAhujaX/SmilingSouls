@@ -212,8 +212,8 @@ def mysession():
             print((slotDetail['btnradio']))
             time,date,day = (slotDetail['btnradio']).split('@')
             print(day)
-            session["day"] = day
-            session["time"]=time
+            # session["day"] = day
+            # session["time"]=time
             counsellor_id = session["counsellor_id"]
             session["booked_counsellor"]=counsellor_id
             user_id = session["user"]
@@ -232,23 +232,15 @@ def mysession():
         cur.execute("select * from ( SELECT * from APPOINTMENT natural join counsellor where user_id=%s) as a",(session["user"],))
         res=cur.fetchone()
         if (res!=0 and res!=None ):
-            
+            print(res)
             A_date=res[4]
             A_time=res[3]
             name=res[7]
             meet_link=res[5]
-            
+            A_counsellor=res[0]
             enable = False
-            # from datetime import date
-            # import datetime
-            # todays = datetime.datetime.now()
-            # from datetime import datetime
-            #A_time = datetime.strptime(str(A_time),"%H:%M:%S")
-            #A_date = datetime.strptime(str(A_date),"%Y-%m-%d")
-            # C_time = todays.time()
-            # C_date = todays.date()
-            
-            # #
+           
+        
             from datetime import date
             from datetime import datetime
             C_date = date.today()
@@ -258,54 +250,35 @@ def mysession():
             C_datetime=datetime.now()
             print(type(C_datetime))
             # print(type(C_date))
-            print(type(A_datetime))
-            print(type(A_date))
+            print(type(A_datetime),A_datetime)
+            print(type(A_date), A_date)
+            l=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+            day=l[A_datetime.weekday()]
+            print(day)
             
             #C_date = todays.strptime(date,"%Y-%m-%d")
             if(A_date==C_date and C_datetime-A_datetime>timedelta(seconds=1) and C_datetime-A_datetime <=timedelta(hours=1)):
                 enable=True     
 
-            return render_template("mysessions.html",C_datetime=C_datetime,A_datetime=A_datetime,time=A_time,date=A_date,name=name,meet_link=meet_link,enable=enable)
+            return render_template("mysessions.html",C_datetime=C_datetime,A_datetime=A_datetime,time=A_time,date=A_date,name=name,meet_link=meet_link,enable=enable,A_day=day,A_counsellor=A_counsellor)
         return render_template("nosession.html")
     else:
         return redirect(url_for("home"))
 @app.route("/delete", methods = ["POST"])
 def delete():
     if request.method == "POST":
-        day= session["day"]
-        time=session["time"]
-        booked_counsellor=session["booked_counsellor"]
+        bookingDetail = request.form
+        print((bookingDetail['btndelete']))
+        day,time,booked_counsellor = (bookingDetail['btndelete']).split('@')
         cur = mysql.connection.cursor()
         cur.execute("update day_availability set flag=0 where day_available = %s AND time_slot=%s AND counsellor_id=%s",(day,time,booked_counsellor,))
         cur = mysql.connection.cursor()
         cur.execute("DELETE FROM appointment WHERE user_id=%s",(session["user"],))
         cur.close()
         mysql.connection.commit()
-        session.pop("day")
-        session.pop("time")
+        
 
     return redirect(url_for("mysession"))
 
-# @app.route("/mysessions")
-# def mysessions():
-#     if "user" in session:
-#         uid=session["user"]
-#         cur = mysql.connection.cursor()
-#         cur.execute("select * from ( SELECT * from APPOINTMENT natural join counsellor where user_id=%s) as a",(session["user"],))
-#         res=cur.fetchone()
-#         if (res!=0 ):
-            
-#             date=res[4]
-#             time=res[3]
-#             name=res[7]
-#             meet_link=res[5]
-
-#             return render_template("mysessions.html",time=time,date=date,name=name,meet_link=meet_link)
-#         return render_template("booking.html")
-
-#     else:
-#         return redirect(url_for("home"))
-
 if __name__ == "__main__":
     app.run(debug=True,port=8080)
-
