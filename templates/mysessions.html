@@ -7,14 +7,18 @@
   </div>
   <div class="card-body">
     <h5 class="card-title">{{name}}</h5>
-    <p class="card-text">You can join the Session on {{date}} at the scheduled time on link specified below which will open only at scheduled time</p>
+    <p class="card-text">You can join the Session on {{A_datetime}} at the scheduled time on link specified below which
+      will open only at scheduled time</p>
     <div class="container">
-        {% if not enable %}
-        <a href=# class="btn btn-primary">Join Session</a>
-        {% else %}
+      {% if not enable %}
+      <button class="btn btn-primary" disabled>Join Session</button>
+      {% else %}
       <a href={{meet_link}} class="btn btn-primary">Join Session</a>
       {% endif %}
-      <form action="/delete" method="POST"><button type="Submit" class="btn btn-danger" style="margin:10px">Cancel</button></form>
+      <form action="/delete" method="POST">
+        <button type="Submit" value="{{A_day}}@{{time}}@{{A_counsellor}}" name="btndelete" class="btn btn-danger"
+          style="margin:10px">Cancel</button>
+      </form>
     </div>
   </div>
   <div class="card-footer text-muted">
