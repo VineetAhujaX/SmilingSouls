@@ -10,7 +10,7 @@ A web app built to connect students with Counsellors at Guidance and Counselling
 ```
 python app.py
 ```
-4. The flask app is hosted at 127.0.0.1:8080, go to browser to check the app
+4. The flask app is hosted at 127.0.0.1:8080, go to browser to check the app.
 
 ## Requirements
 ```
