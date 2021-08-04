@@ -11,9 +11,11 @@
       will open only at scheduled time</p>
     <div class="container">
       {% if not enable %}
-      <button class="btn btn-primary" disabled>Join Session</button>
+      <a href="/join" class="btn btn-primary">Join Session</a>
+      <!-- <button class="btn btn-primary" disabled>Join Session</button> -->
       {% else %}
-      <a href={{meet_link}} class="btn btn-primary">Join Session</a>
+      <a href="/join" class="btn btn-primary">Join Session</a>
+      <!-- <a href={{meet_link}} class="btn btn-primary">Join Session</a> -->
       {% endif %}
       <form action="/delete" method="POST">
         <button type="Submit" value="{{A_day}}@{{time}}@{{A_counsellor}}" name="btndelete" class="btn btn-danger"
